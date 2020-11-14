@@ -37,7 +37,8 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = ImageBelier
         fields = ('title',
                   'image',
-                  'image_url')
+                  'image_url',
+                  'category',)
 
     def get_image_url(self, obj):
         request = self.context.get("request")
