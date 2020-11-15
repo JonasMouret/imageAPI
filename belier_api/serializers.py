@@ -31,15 +31,17 @@ from rest_framework import serializers
 class PhotoSerializer(serializers.ModelSerializer):
 
 
-    image_url = serializers.SerializerMethodField('get_image_url')
+    # image_url = serializers.SerializerMethodField('get_image_url')
 
     class Meta:
         model = ImageBelier
         fields = ('title',
                   'image',
-                  'image_url',
-                  'category',)
+                #   'image_url',
+                  'get_category_display',)
 
-    def get_image_url(self, obj):
-        request = self.context.get("request")
-        return request.build_absolute_uri(obj.image.url)
+    # def get_image_url(self, obj):
+    #     request = self.context.get("request")
+    #     if request.build_absolute_uri is not None:
+    #         return request.build_absolute_uri(obj.image.url)
+    #     return request(obj.image)

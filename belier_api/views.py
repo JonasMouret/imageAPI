@@ -34,7 +34,8 @@ from belier_api.serializers import PhotoSerializer
 class PhotoList(APIView):
 
     permission_classes = (permissions.AllowAny,)
-    http_method_names = ['get', 'head', 'post']
+    parser_classes = (MultiPartParser, FormParser)
+    # http_method_names = ['get', 'head', 'post']
 
 
     def get(self, request, *args, **kwargs):

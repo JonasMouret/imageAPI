@@ -18,12 +18,13 @@ class ImageBelier (models.Model):
         choices=CATEGORY_CHOICES,
         default=MAIN,
     )
+    is_active = models.BooleanField(
+        default = True
+    )
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
-        # area = (150, 200, 800, 800)
-        # img.crop(area)
         print(self.category)
         if self.category == 'MA':
             output_size = (1100, 1200)
