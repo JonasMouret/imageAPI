@@ -35,7 +35,7 @@ class PhotoList(APIView):
 
     permission_classes = (permissions.AllowAny,)
     parser_classes = (MultiPartParser, FormParser)
-    # http_method_names = ['get', 'head', 'post']
+    http_method_names = ['get', 'head', 'post']
 
 
     def get(self, request, *args, **kwargs):
