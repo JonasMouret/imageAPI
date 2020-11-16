@@ -1,9 +1,13 @@
 from django.contrib.auth.models import User, Group
 
+from django.http import HttpResponse
+
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
+
+from rest_framework.authtoken.models import Token
 
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -45,9 +49,15 @@ class PhotoList(APIView):
     
     def post(self, request, *args, **kwargs):
         image_serializer = PhotoSerializer(data=request.data)
-        if image_serializer.is_valid():
-            image_serializer.save()
-            return Response(image_serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print('error', image_serializer.errors)
-            return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.method == "POST":
+            if request.POST.get('token'):
+                token = Token.objects.get(key=request.POST.get('token'))
+                if token:
+                    if image_serializer.is_valid():
+                        image_serializer.save()
+                        return Response(image_serializer.data, status=status.HTTP_201_CREATED)
+                    else:
+                        print('error', image_serializer.errors)
+                        return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return HttpResponse('Unauthorized', status=401)

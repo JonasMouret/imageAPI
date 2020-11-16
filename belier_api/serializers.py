@@ -7,7 +7,5 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ImageBelier
-        fields = ('title',
-                  'image',
-                  'category',)
+        fields = ('title', 'image', 'category',)
 
