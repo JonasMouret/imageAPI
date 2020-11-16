@@ -14,10 +14,10 @@ from pathlib import Path
 import django_heroku
 import os
 
-
+import dj_database_url 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
 
 
@@ -78,8 +78,6 @@ TEMPLATES = [
     },
 ]
 
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_TMP = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
@@ -100,14 +98,9 @@ WSGI_APPLICATION = 'imageAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-import dj_database_url 
-
-prod_db  =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
 
 
 # Password validation
@@ -160,7 +153,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR, "media")
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 
 try:
