@@ -9,5 +9,5 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = ImageBelier
         fields = ('title',
                   'image',
-                  'get_category_display',)
+                  'category',)
 
