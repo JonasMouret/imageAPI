@@ -15,6 +15,14 @@ import django_heroku
 import os
 
 import dj_database_url 
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env("SECRET_KEY", default="@sfz%1**!9_q#9%_!jq+qsdqsdxqsdqz@83xs5pn&fku23eqh27%")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,11 +32,8 @@ PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@sfz%1**!9_q#9%_!jq+rci9liuniz@83xs5pn&fku23eqh27%'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['admin.hotelbelier.com' 'staging-admin.hotelbelier.com', 'hotelbelier.com', 'wwww.hotelbelier.com', 'staging.hotelbelier.com', 'localhost', 'http://*.hotelbelier.com']
 

@@ -20,6 +20,12 @@ from .models import ImageBelier
 from rest_framework.views import APIView 
 from belier_api.serializers import PhotoSerializer
 
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
 
 class PhotoList(APIView):
 
@@ -53,22 +59,19 @@ class PhotoList(APIView):
     def post(self, request, *args, **kwargs):
         image_serializer = PhotoSerializer(data=request.data)
         if request.method == "POST":
-            if request.POST.get('token'):
-                token = Token.objects.get(key=request.POST.get('token'))
-                if token:
-                    if image_serializer.is_valid():
-                        image_serializer.save()
-                        img = image_serializer['image']
-                        modelImageBelier = ImageBelier.objects.last()
-                        
-                        with open(modelImageBelier.image.path, 'rb') as fileImage:
-                            modelImageBelier.image_64 = base64.b64encode(fileImage.read())
-                            modelImageBelier.image_64 = modelImageBelier.image_64.decode('utf-8')    
-                        modelImageBelier.save()
-                        return Response(image_serializer.data, status=status.HTTP_201_CREATED)
-                    else:
-                        print('error', image_serializer.errors)
-                        return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            if request.POST.get('token') == env('TOKEN'):
+                if image_serializer.is_valid():
+                    image_serializer.save()
+                    img = image_serializer['image']
+                    modelImageBelier = ImageBelier.objects.last()
+                    with open(modelImageBelier.image.path, 'rb') as fileImage:
+                        modelImageBelier.image_64 = base64.b64encode(fileImage.read())
+                        modelImageBelier.image_64 = modelImageBelier.image_64.decode('utf-8')    
+                    modelImageBelier.save()
+                    return Response(image_serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    print('error', image_serializer.errors)
+                    return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return HttpResponse('Unauthorized', status=401)
 
