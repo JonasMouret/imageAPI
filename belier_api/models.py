@@ -6,7 +6,7 @@ import base64
 
 class ImageBelier (models.Model):
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='photos', max_length=254)
+    image = models.FileField(upload_to='photos', max_length=254, blank=True, null=True)
 
     HOME = 'HO'
     MAIN = 'MA'
@@ -27,7 +27,6 @@ class ImageBelier (models.Model):
     image_64 = models.TextField(
         blank = True
         )
-
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
