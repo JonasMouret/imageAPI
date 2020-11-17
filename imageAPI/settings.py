@@ -28,7 +28,7 @@ PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 SECRET_KEY = '@sfz%1**!9_q#9%_!jq+rci9liuniz@83xs5pn&fku23eqh27%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['admin.hotelbelier.com' 'staging-admin.hotelbelier.com', 'hotelbelier.com', 'wwww.hotelbelier.com', 'staging.hotelbelier.com', 'localhost', 'http://*.hotelbelier.com']
 
@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['admin.hotelbelier.com' 'staging-admin.hotelbelier.com', 'hotel
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -94,10 +95,15 @@ WSGI_APPLICATION = 'imageAPI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
