@@ -33,6 +33,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 import environ
 
 from django.core.files import File
+from django.core.files.storage import default_storage
 
 env = environ.Env()
 # reading .env file
@@ -45,15 +46,17 @@ class PhotoList(APIView):
     parser_classes = (MultiPartParser, FormParser)
     http_method_names = ['get', 'head', 'post', 'delete']
     
-
     def get(self, request, *args, **kwargs):
         image = ImageBelier.objects.all()
+        path_media = os.path.exists(settings.MEDIA_ROOT)
+        if path_media == False:
+            os.makedirs(settings.MEDIA_ROOT + '/photos/')
         for img in image:
-            with open(img.image.path, 'wb') as f:
-                myfile = File(f)
-                myfile.write(base64.b64decode(str(img.image_64)))
-                myfile.close()
-                f.close()
+                with open(img.image.path, 'wb') as f:
+                    myfile = File(f)
+                    myfile.write(base64.b64decode(str(img.image_64)))
+                    myfile.close()
+                    f.close()
 
         serializer = PhotoSerializer(image, many=True, context={"request":request}) 
         return Response(serializer.data, status=status.HTTP_200_OK)
