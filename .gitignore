@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 media/
 settings.py
-
+staticfiles/
 .idea/
 
 # C extensions
