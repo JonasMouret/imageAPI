@@ -4,8 +4,15 @@ from django.http import Http404
 
 import base64
 from PIL import Image
-from io import BytesIO
+import io
+import sys
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.exceptions import SuspiciousOperation
+
 from django.http import HttpResponse
+
+import os
+from django.conf import settings
 
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -21,8 +28,11 @@ from django.db.models.query import QuerySet
 from .models import ImageBelier
 from rest_framework.views import APIView 
 from belier_api.serializers import PhotoSerializer
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import environ
+
+from django.core.files import File
 
 env = environ.Env()
 # reading .env file
@@ -34,30 +44,18 @@ class PhotoList(APIView):
     permission_classes = (permissions.AllowAny,)
     parser_classes = (MultiPartParser, FormParser)
     http_method_names = ['get', 'head', 'post', 'delete']
-
+    
 
     def get(self, request, *args, **kwargs):
         image = ImageBelier.objects.all()
-        
-        serializer = PhotoSerializer(image, many=True, context={"request":request})
-        if request.method == "GET":
-            if request.GET.get('base_64'):
-                image.image_64
-                for img in image:
-                    if img.image.path is None:
-                        fh = img.image.path
-                        # fh = img.image.storage.location + '/' + img.title
-                        img.image = Image.open(BytesIO(base64.b64decode(img.image_64)))
-                        img.save()
-                
-                # serializer.data('image') += img.image
-                # img.save(fh, 'JPEG')
-                # imgdata = base64.b64decode(img.image_64)
-                # with open(fh, 'wb') as f:
-                #     f.write(imgdata)
-                #     f.close()
-        
-        
+        for img in image:
+            with open(img.image.path, 'wb') as f:
+                myfile = File(f)
+                myfile.write(base64.b64decode(str(img.image_64)))
+                myfile.close()
+                f.close()
+
+        serializer = PhotoSerializer(image, many=True, context={"request":request}) 
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, *args, **kwargs):
