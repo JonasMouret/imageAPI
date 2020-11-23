@@ -6,21 +6,14 @@ import base64
 
 class ImageBelier (models.Model):
     title = models.CharField(max_length=200)
+
     image = models.FileField(upload_to='photos', max_length=254, blank=True, null=True)
 
-    HOME = 'HO'
-    MAIN = 'MA'
-    PARTENAIRES = 'PA'
-    CATEGORY_CHOICES = [
-        (HOME, 'photo principal'),
-        (MAIN, 'photo contenu'),
-        (PARTENAIRES, 'partenaires'),
-    ]
     category = models.CharField(
-        max_length=2,
-        choices=CATEGORY_CHOICES,
-        default=MAIN,
+        max_length=200,
+        default='comp-portrait',
     )
+
     is_active = models.BooleanField(
         default = True
     )
@@ -30,11 +23,14 @@ class ImageBelier (models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        img = Image.open(self.image.path) 
-        if self.category == 'MA':
-            output_size = (1100, 1200)
-            img.thumbnail(output_size)
-        img.save(self.image.path, format="JPEG", quality=70)
+        img = Image.open(self.image.path)
+        if img.format != 'JPEG' or img.format != 'JPG':
+            img = img.convert('RGB')
+            img.save(self.image.path, format="JPEG")
+            if self.category == 'comp-portrait':
+                output_size = (1100, 1200)
+                img.thumbnail(output_size)
+            img.save(self.image.path, format="JPEG", quality=70)
         
 
     def __str__(self):
