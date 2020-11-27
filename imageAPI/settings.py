@@ -146,10 +146,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 if os.environ.get("CAPROVER") is None:
     print ('NO CAPROVER ARG SET')
