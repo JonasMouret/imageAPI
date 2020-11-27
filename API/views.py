@@ -27,7 +27,7 @@ from django.db.models.query import QuerySet
 
 from .models import ImageBelier
 from rest_framework.views import APIView 
-from belier_api.serializers import PhotoSerializer
+from API.serializers import PhotoSerializer
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 import environ

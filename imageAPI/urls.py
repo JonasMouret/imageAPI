@@ -1,7 +1,7 @@
 from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers
-from belier_api import views
+from API import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
@@ -15,7 +15,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api/', include('belier_api.urls')),
+    path('api/', include('API.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
     
 ]
