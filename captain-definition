@@ -3,7 +3,7 @@
   "dockerfileLines": [
     "FROM library/python:3.8.6-alpine",
     "RUN pip install --upgrade pip",
-    "RUN apk update && apk upgrade && apk add zlib zlib-dev make g++ bash git curl",
+    "RUN apk update && apk upgrade && apk add zlib zlib-dev make g++ bash git openssh postgresql-dev curl",
     "RUN mkdir -p /usr/src/app",
     "WORKDIR /usr/src/app",
     "COPY ./imageAPI/ /usr/src/app",
