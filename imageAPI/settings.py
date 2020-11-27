@@ -21,20 +21,20 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = env("SECRET_KEY", default="@sfz%1**!9_q#9%_!jq+qsdqsdxqsdqz@83xs5pn&fku23eqh27%")
+# SECRET_KEY = env("SECRET_KEY", default="@sfz%1**!9_q#9%_!jq+qsdqsdxqsdqz@83xs5pn&fku23eqh27%")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+# PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = ['admin.hotelbelier.com' 'staging-admin.hotelbelier.com', 'hotelbelier.com', 'wwww.hotelbelier.com', 'staging.hotelbelier.com', 'localhost', 'http://*.hotelbelier.com']
+# ALLOWED_HOSTS = ['admin.hotelbelier.com' 'staging-admin.hotelbelier.com', 'hotelbelier.com', 'wwww.hotelbelier.com', 'staging.hotelbelier.com', 'localhost', 'http://*.hotelbelier.com']
 
 
 # Application definition
@@ -146,12 +146,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
 
 if os.environ.get("CAPROVER") is None:
+    print ('NO CAPROVER ARG SET')
     from .settings_dev import *
 else:
     from .settings_caprover import *

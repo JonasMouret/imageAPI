@@ -7,6 +7,7 @@ from django.core.exceptions import ImproperlyConfigured
 from .settings import BASE_DIR
 
 # key and debugging settings should not changed without care
+print('YYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOO')
 SECRET_KEY = os.environ.get("CR_SECRET_KEY") or ImproperlyConfigured("CR_SECRET_KEY not set")
 DEBUG = False
 
