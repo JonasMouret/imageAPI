@@ -9,7 +9,6 @@
     "COPY ./imageAPI/ /usr/src/app",
     "RUN pip install -r requirements.txt",
     "COPY ./utils/ /usr/src/utils",
-    "EXPOSE 80",
     "CMD sh /usr/src/utils/run.sh"
   ]
 
