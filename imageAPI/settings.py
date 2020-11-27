@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
 import os
 
 import dj_database_url 
@@ -97,19 +96,6 @@ os.makedirs(STATIC_ROOT, exist_ok=True)
 WSGI_APPLICATION = 'imageAPI.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-}
-
-
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-# Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -165,4 +151,7 @@ try:
 except ImportError:
     pass
 
-django_heroku.settings(locals())
+if os.environ.get("CAPROVER") is None:
+    from .settings_dev import *
+else:
+    from .settings_caprover import *
